@@ -10,22 +10,23 @@ app.set("trust proxy", 1);
 
 app.use(express.json());
 
-app.use(
+const allowedOrigins = [
+    /^http:\/\/localhost:\d+$/, // Autoriser localhost avec n'importe quel port
+    /^http:\/\/127\.0\.0\.1:\d+$/, // Autoriser 127.0.0.1 avec n'importe quel port
+    "https://my-kanban-spa.vercel.app", // Autoriser ton SPA hébergée sur Vercel
+  ];
+  
+  app.use(
     cors({
-        origin: (origin, callback) => {
-            if (
-                !origin ||
-                /^(http:\/\/localhost:\d+|http:\/\/127\.0\.0\.1:\d+)$/.test(
-                    origin
-                )
-            ) {
-                callback(null, true); // Autoriser l'origine
-            } else {
-                callback(new Error("Not allowed by CORS")); // Bloquer l'origine
-            }
-        },
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.some((o) => (typeof o === "string" ? o === origin : o.test(origin)))) {
+          callback(null, true); // Autoriser l'origine
+        } else {
+          callback(new Error("Not allowed by CORS")); // Bloquer l'origine
+        }
+      },
     })
-);
+  );
 
 app.use(xss());
 
