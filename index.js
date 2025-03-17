@@ -14,6 +14,7 @@ const allowedOrigins = [
     /^http:\/\/localhost:\d+$/, // Autoriser localhost avec n'importe quel port
     /^http:\/\/127\.0\.0\.1:\d+$/, // Autoriser 127.0.0.1 avec n'importe quel port
     "https://my-kanban-spa.vercel.app", // Autoriser ton SPA hébergée sur Vercel
+    "https://my-kanban-react-spa.vercel.app", //Autoriser REACT SPA hébergée sur Vercel
   ];
   
   app.use(
